@@ -17,7 +17,7 @@ export default function Step1Personal({ onNext }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  // ✅ Validation toggle (hidden)
+  // ✅ Toggle to enable/disable validation if needed
   const [isValidationEnabled] = useState(true);
 
   const {
@@ -32,41 +32,50 @@ export default function Step1Personal({ onNext }) {
     onNext();
   };
 
-  // ✅ Helper to conditionally apply rules
   const rule = (rules) => (isValidationEnabled ? rules : {});
 
   return (
-    <Container maxWidth="md" sx={{ mt: 4 }}>
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
         sx={{
+          width: "100vw",
+          maxWidth: 900, // ✅ Prevents overly wide layouts
           backgroundColor: "ghostwhite",
-          p: 3,
+          p: { xs: 2, sm: 3 },
           borderRadius: 2,
           boxShadow: 1,
+          "& .MuiTextField-root": { width: "100%" }, // ✅ Fix shrinking
         }}
       >
         <Typography variant="h6" sx={{ mb: 3 }}>
           {t("personal.title") || "Personal Information"}
         </Typography>
 
-        <Grid container spacing={2}>
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            width: "100%",
+            alignItems: "flex-start",
+          }}
+        >
           {/* Full Name */}
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} sm={6}>
             <TextField
-              fullWidth
               label={t("personal.fullName") || "Full Name"}
-              {...register("fullName", rule({ required: t("personal.fullName") + " is required" }))}
+              {...register(
+                "fullName",
+                rule({ required: t("personal.fullName") + " is required" })
+              )}
               error={!!errors.fullName}
               helperText={errors.fullName?.message}
             />
           </Grid>
 
           {/* National ID */}
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} sm={6}>
             <TextField
-              fullWidth
               label={t("personal.nationalId") || "National ID"}
               {...register(
                 "nationalId",
@@ -84,84 +93,95 @@ export default function Step1Personal({ onNext }) {
           </Grid>
 
           {/* Date of Birth */}
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} sm={6}>
             <TextField
-              fullWidth
               type="date"
               label={t("personal.dob") || "Date of Birth"}
               InputLabelProps={{ shrink: true }}
-              {...register("dob", rule({ required: t("personal.dob") + " is required" }))}
+              {...register(
+                "dob",
+                rule({ required: t("personal.dob") + " is required" })
+              )}
               error={!!errors.dob}
               helperText={errors.dob?.message}
             />
           </Grid>
 
           {/* Gender */}
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} sm={6}>
             <TextField
               select
-              fullWidth
               label={t("personal.gender") || "Gender"}
               defaultValue=""
-              {...register("gender", rule({ required: t("personal.gender") + " is required" }))}
+              {...register(
+                "gender",
+                rule({ required: t("personal.gender") + " is required" })
+              )}
               error={!!errors.gender}
               helperText={errors.gender?.message}
             >
-              <MenuItem value="">{t("personal.selectGender") || "Select Gender"}</MenuItem>
-              <MenuItem value="male">{t("personal.male") || "Male"}</MenuItem>
-              <MenuItem value="female">{t("personal.female") || "Female"}</MenuItem>
-              <MenuItem value="other">{t("personal.other") || "Other"}</MenuItem>
+              <MenuItem value="">{t("personal.selectGender")}</MenuItem>
+              <MenuItem value="male">{t("personal.male")}</MenuItem>
+              <MenuItem value="female">{t("personal.female")}</MenuItem>
+              <MenuItem value="other">{t("personal.other")}</MenuItem>
             </TextField>
           </Grid>
 
           {/* Address */}
           <Grid item xs={12}>
             <TextField
-              fullWidth
               label={t("personal.address") || "Address"}
-              {...register("address", rule({ required: t("personal.address") + " is required" }))}
+              {...register(
+                "address",
+                rule({ required: t("personal.address") + " is required" })
+              )}
               error={!!errors.address}
               helperText={errors.address?.message}
             />
           </Grid>
 
           {/* City */}
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} sm={6}>
             <TextField
-              fullWidth
               label={t("personal.city") || "City"}
-              {...register("city", rule({ required: t("personal.city") + " is required" }))}
+              {...register(
+                "city",
+                rule({ required: t("personal.city") + " is required" })
+              )}
               error={!!errors.city}
               helperText={errors.city?.message}
             />
           </Grid>
 
           {/* State */}
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} sm={6}>
             <TextField
-              fullWidth
               label={t("personal.state") || "State"}
-              {...register("state", rule({ required: t("personal.state") + " is required" }))}
+              {...register(
+                "state",
+                rule({ required: t("personal.state") + " is required" })
+              )}
               error={!!errors.state}
               helperText={errors.state?.message}
             />
           </Grid>
 
           {/* Country */}
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} sm={6}>
             <TextField
-              fullWidth
               label={t("personal.country") || "Country"}
-              {...register("country", rule({ required: t("personal.country") + " is required" }))}
+              {...register(
+                "country",
+                rule({ required: t("personal.country") + " is required" })
+              )}
               error={!!errors.country}
               helperText={errors.country?.message}
             />
           </Grid>
 
           {/* Phone */}
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} sm={6}>
             <TextField
-              fullWidth
               label={t("personal.phone") || "Phone"}
               {...register(
                 "phone",
@@ -181,7 +201,6 @@ export default function Step1Personal({ onNext }) {
           {/* Email */}
           <Grid item xs={12}>
             <TextField
-              fullWidth
               label={t("personal.email") || "Email"}
               {...register(
                 "email",
@@ -199,12 +218,17 @@ export default function Step1Personal({ onNext }) {
           </Grid>
         </Grid>
 
-        <Box sx={{ textAlign: "right", mt: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            mt: 3,
+          }}
+        >
           <Button type="submit" variant="contained">
-            {t("personal.next") || "Next"}
+            {t("next") || "Next"}
           </Button>
         </Box>
       </Box>
-    </Container>
   );
 }

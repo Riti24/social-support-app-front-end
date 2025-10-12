@@ -8,10 +8,11 @@ import { AppBar, Toolbar, Typography, FormControlLabel, Box, Switch, Stepper, St
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from "react-redux";
+import { setStep } from "../store/slices/form-slice";
 
 
 
-const steps = ["Personal Information", "familyFinFamily and Financial Detailsancial", "Situations"];
+const steps = ["personal.title", "family.title", "situations.title"];
 
 export default function Layout() {
     const { t, i18n } = useTranslation();
@@ -57,21 +58,32 @@ export default function Layout() {
                     </Box>
                 </Toolbar>
             </AppBar>
-            <Container maxWidth="md" sx={{ py: 3 }}>
-                <Stepper activeStep={activeStep}>
+            <Container
+                maxWidth="lg"
+                sx={{
+                    py: 4,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                }}
+            >
+                 <Box sx={{ width: "100%", maxWidth: 900 }}>
+                <Stepper activeStep={activeStep} >
                     {steps.map((step, index) => (
                         <Step key={index} onClick={() => go(index)}>
                             <StepLabel>{t(step)}</StepLabel>
                         </Step>
                     ))}
                 </Stepper>
-                <Routes>
-                    <Route path="/personal" element={<Step1Personal onNext={() => go(1)} />} />
-                    <Route path="/family" element={<Step2Family onBack={() => go(0)} onNext={() => go(2)} />} />
-                    <Route path="/situations" element={<Step3Situations onBack={() => go(1)} onNext={() => go(3)} />} />
-                    <Route path="/review" element={<Review onBack={() => go(2)} />} />
-                    <Route index element={<Navigate to="/personal" replace />} />
-                </Routes>
+              
+                    <Routes>
+                        <Route path="/personal" element={<Step1Personal onNext={() => go(1)} />} />
+                        <Route path="/family" element={<Step2Family onBack={() => go(0)} onNext={() => go(2)} />} />
+                        <Route path="/situations" element={<Step3Situations onBack={() => go(1)} onNext={() => go(3)} />} />
+                        <Route path="/review" element={<Review onBack={() => go(2)} />} />
+                        <Route index element={<Navigate to="/personal" replace />} />
+                    </Routes>
+                </Box>
             </Container>
         </ThemeProvider>
     );

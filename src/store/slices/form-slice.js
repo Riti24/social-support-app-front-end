@@ -15,9 +15,10 @@ const formSlice = createSlice({
         },
         setFormData(state, action) {
             state.data = {...state.data, ...action.payload};
-        }
+        },
+        reset(state) { Object.assign(state, initialState); }
     }
 });
 
-export const {setStep, setFormData} = formSlice.actions;
+export const {setStep, setFormData,reset} = formSlice.actions;
 export default formSlice.reducer;
