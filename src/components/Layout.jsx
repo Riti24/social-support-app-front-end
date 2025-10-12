@@ -8,7 +8,7 @@ import { AppBar, Toolbar, Typography, FormControlLabel, Box, Switch, Stepper, St
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from "react-redux";
-import { setStep } from "../store/slices/form-slice";
+
 
 
 const steps = ["Personal Information", "familyFinFamily and Financial Detailsancial", "Situations"];
