@@ -4,7 +4,8 @@ import Step1Personal from './steps/Step1Personal';
 import Step2Family from './steps/Step2Family';
 import Step3Situations from './steps/Step3Situations';
 import Review from './steps/Review';
-import { AppBar, Toolbar, Typography, FormControlLabel, Box, Switch, ThemeProvider,createTheme } from '@mui/material';
+import { AppBar, Toolbar, Typography, FormControlLabel, Box, Switch } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 
 
