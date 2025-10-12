@@ -1,12 +1,13 @@
-import { useState } from 'react';
-import './App.css'
+import Layout from './components/Layout';
+import { BrowserRouter as BrowserRouter } from 'react-router-dom';
+import { CssBaseline } from '@mui/material';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>     
-    </>
+    <BrowserRouter>
+      <CssBaseline />
+      <Layout></Layout>
+    </BrowserRouter>
   )
 }
 
