@@ -9,6 +9,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from "react-redux";
 import { setStep } from "../store/slices/form-slice";
+import { isStepComplete } from "../store/FormValidation";
+import ProtectedStepRoute from "./ProtectedStepRoute";
 
 const steps = ["personal.title", "family.title", "situations.title"];
 
@@ -19,6 +21,7 @@ export default function Layout() {
     const navigate = useNavigate();
     const theme = useMemo(() => createTheme({ direction: rtl ? "rtl" : "ltr" }), [rtl]);
     const activeStep = useSelector(state => state.form.step)
+    const form = useSelector((s) => s.form);
 
     const handleLangToggle = () => {
         const isRtl = !rtl;
@@ -31,6 +34,10 @@ export default function Layout() {
 
 
     const go = (n) => {
+        if (n > 0 && !isStepComplete(form, n - 1)) {
+            alert("Please complete the previous step first.");
+            return;
+        }
         dispatch(setStep(n));
         if (n === 0) navigate("/personal");
         if (n === 1) navigate("/family");
@@ -65,20 +72,29 @@ export default function Layout() {
                     alignItems: "center",
                 }}
             >
-                 <Box sx={{ width: "100%", maxWidth: 900 }}>
-                <Stepper activeStep={activeStep} >
-                    {steps.map((step, index) => (
-                        <Step key={index} onClick={() => go(index)}>
-                            <StepLabel>{t(step)}</StepLabel>
-                        </Step>
-                    ))}
-                </Stepper>
-              
+                <Box sx={{ width: "100%", maxWidth: 900 }}>
+                    <Stepper activeStep={activeStep}  >
+                        {steps.map((step, index) => (
+                            <Step completed={isStepComplete(form, index)} key={index} onClick={() => go(index)}>
+                                <StepLabel>{t(step)}</StepLabel>
+                            </Step>
+                        ))}
+                    </Stepper>
+
                     <Routes>
                         <Route path="/personal" element={<Step1Personal onNext={() => go(1)} />} />
-                        <Route path="/family" element={<Step2Family onBack={() => go(0)} onNext={() => go(2)} />} />
-                        <Route path="/situations" element={<Step3Situations onBack={() => go(1)} onNext={() => go(3)} />} />
-                        <Route path="/review" element={<Review onBack={() => go(2)} />} />
+                        <Route
+                            path="/family"
+                            element={<ProtectedStepRoute step={1} element={<Step2Family onBack={() => go(0)} onNext={() => go(2)} />} />}
+                        />
+                        <Route
+                            path="/situations"
+                            element={<ProtectedStepRoute step={2} element={<Step3Situations onBack={() => go(1)} onNext={() => go(3)} />} />}
+                        />
+                        <Route
+                            path="/review"
+                            element={<ProtectedStepRoute step={3} element={<Review onBack={() => go(2)} />} />}
+                        />
                         <Route index element={<Navigate to="/personal" replace />} />
                     </Routes>
                 </Box>
