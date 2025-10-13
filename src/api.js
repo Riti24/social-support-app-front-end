@@ -13,14 +13,12 @@ api.interceptors.response.use(
 );
 
 export async function submitApplication(payload){
-  // Mock submit endpoint
   await new Promise(r=>setTimeout(r, 1000));
-  // In real app: return api.post('/api/submit', payload);
   return { data: { ok: true, id: Math.random().toString(36).slice(2) } };
 }
 
 export async function aiSuggest(prompt){
-  const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+  const apiKey = process.env.OPENAI_API_KEY;
   try {
     if(apiKey){
       const res = await axios.post('https://api.openai.com/v1/chat/completions', {

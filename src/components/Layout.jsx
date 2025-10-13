@@ -10,8 +10,6 @@ import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from "react-redux";
 import { setStep } from "../store/slices/form-slice";
 
-
-
 const steps = ["personal.title", "family.title", "situations.title"];
 
 export default function Layout() {
