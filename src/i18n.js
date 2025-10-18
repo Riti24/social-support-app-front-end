@@ -20,7 +20,7 @@ const resources = {
       accept: "Accept",
       discard: "Discard",
       edit: "Edit",
-
+      generatedSuggestion:"Generated Suggestion",
       //Step-1 - Personal Information
       personal: {
         title: "Personal Information",
